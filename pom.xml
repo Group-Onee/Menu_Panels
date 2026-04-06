@@ -80,6 +80,11 @@
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
                     </includes>
+                    <!-- Run tests in headless mode to avoid GUI issues in CI/CD -->
+                    <systemPropertyVariables>
+                        <java.awt.headless>true</java.awt.headless>
+                        <javax.swing.SwingUtilities.headless>true</javax.swing.SwingUtilities.headless>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
