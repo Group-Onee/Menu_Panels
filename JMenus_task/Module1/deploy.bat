@@ -1,6 +1,0 @@
-@echo off
-echo Deploying to %1 environment...
-REM Example deployment steps
-echo Copying files...
-REM xcopy target\*.jar C:\deploy\ /Y
-echo Deployment complete!
