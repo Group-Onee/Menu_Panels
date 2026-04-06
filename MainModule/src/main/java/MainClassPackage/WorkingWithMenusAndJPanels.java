@@ -14,7 +14,8 @@ public class WorkingWithMenusAndJPanels {
     JMenus_task Project_Menus = new JMenus_task();
 
     public WorkingWithMenusAndJPanels() {
-       this.Working_With_Menus_And_JPanels();
+
+        this.Working_With_Menus_And_JPanels();
     }
 
     public JFrame Working_With_Menus_And_JPanels() {
