@@ -28,6 +28,9 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 bat 'mvn test'
+
+                // Publish test results immediately after tests
+                junit '**/target/surefire-reports/*.xml'
             }
         }
 
@@ -56,8 +59,7 @@ pipeline {
         always {
             node {
                 echo 'Pipeline execution completed'
-                // Collect JUnit reports from all modules
-                junit '**/target/surefire-reports/*.xml'
+
             }
         }
         success {
