@@ -27,16 +27,21 @@ public class MainTest {
     }
 
     @Test
-    public void testWorkingWithMenusAndJPanelsInstantiation() {
-        // Test that we can create the class without calling GUI methods
-        // This verifies the class can be instantiated in a test environment
+    public void testWorkingWithMenusAndJPanelsClassExists() {
+        // Test that the class exists without instantiating it
+        // This avoids creating GUI components in test environment
 
         try {
-            // We create the class but don't call methods that create GUI
+            // Just check that the class can be found, don't instantiate
             Class<?> clazz = Class.forName("MainClassPackage.WorkingWithMenusAndJPanels");
             assertNotNull("WorkingWithMenusAndJPanels class should exist", clazz);
+
+            // Check that it has the expected constructor
+            clazz.getConstructor();
         } catch (ClassNotFoundException e) {
             fail("WorkingWithMenusAndJPanels class should be found: " + e.getMessage());
+        } catch (NoSuchMethodException e) {
+            fail("WorkingWithMenusAndJPanels should have a default constructor: " + e.getMessage());
         }
     }
 }
