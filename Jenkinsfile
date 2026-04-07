@@ -34,13 +34,13 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 echo 'Running SonarQube analysis...'
-                bat '''
+                bat """
                     mvn sonar:sonar ^
                     -Dsonar.projectKey=jmenu-task ^
                     -Dsonar.sources=. ^
                     -Dsonar.host.url=%SONAR_HOST_URL% ^
                     -Dsonar.login=%SONAR_LOGIN%
-                '''
+                """
             }
         }
 
@@ -54,8 +54,11 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline execution completed'
-            junit 'target/surefire-reports/**/*.xml'
+            node {
+                echo 'Pipeline execution completed'
+                // Collect JUnit reports from all modules
+                junit '**/target/surefire-reports/*.xml'
+            }
         }
         success {
             echo 'Build and analysis successful!'
