@@ -20,42 +20,47 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building project with Maven...'
-                sh 'mvn clean compile -DskipTests'
+                bat 'mvn clean compile -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'mvn test'
+                bat 'mvn test'
+
+                // Publish test results immediately after tests
+                junit '**/target/surefire-reports/*.xml'
             }
         }
 
         stage('Code Quality Analysis') {
             steps {
                 echo 'Running SonarQube analysis...'
-                sh '''
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=jmenu-task \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=${SONAR_HOST_URL} \
-                    -Dsonar.login=${SONAR_LOGIN}
-                '''
+                bat """
+                    mvn sonar:sonar ^
+                    -Dsonar.projectKey=jmenu-task ^
+                    -Dsonar.sources=. ^
+                    -Dsonar.host.url=%SONAR_HOST_URL% ^
+                    -Dsonar.login=%SONAR_LOGIN%
+                """
             }
         }
 
         stage('Build Artifacts') {
             steps {
                 echo 'Creating project artifacts...'
-                sh 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline execution completed'
-            junit 'target/surefire-reports/**/*.xml'
+            node {
+                echo 'Pipeline execution completed'
+
+            }
         }
         success {
             echo 'Build and analysis successful!'
